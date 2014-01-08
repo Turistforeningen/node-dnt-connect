@@ -1,4 +1,4 @@
-DNT Connect
+DNT Connect ![Build Status](https://drone.io/github.com/Turistforeningen/node-dnt-connect/status.png)
 ===========
 
 Node.JS library for DNT's single sign on service DNT Connect
