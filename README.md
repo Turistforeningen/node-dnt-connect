@@ -21,7 +21,7 @@ var client = new Connect('myClientName', 'mySecretKey');
 
 ### Bounce
 
-```javascrip
+```javascript
 var url = client.bounce('http://mysite.com/login')
 ```
 
