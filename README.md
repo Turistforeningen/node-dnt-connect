@@ -1,5 +1,5 @@
-node-dnt-connect
-================
+DNT Connect
+===========
 
 Node.JS library for DNT's single sign on service DNT Connect
 
