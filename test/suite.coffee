@@ -30,8 +30,16 @@ describe 'getUrlData', ->
     assert.equal data.redirect_url, url
     assert.equal typeof data.timestamp, 'number'
 
-describe.skip '#pkcs7pad()', ->
-  it 'not implemented'
+describe '#pkcs7pad()', ->
+  it 'should pad input data lenght not multiplum of 16', ->
+    buff = c.pkcs7pad('a')
+    assert.equal buff.length, 16
+    assert.equal buff[i], 0xf for i in [1..15]
+
+  it 'should pad input data whos length is multiplum of 16', ->
+    buff = c.pkcs7pad('abcdefghijklmnop')
+    assert.equal buff.length, 32
+    assert.equal buff[i], 0x10 for i in [16..31]
 
 describe.skip '#decrypt()', ->
   it 'not implemented'
