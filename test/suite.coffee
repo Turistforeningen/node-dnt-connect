@@ -31,17 +31,17 @@ describe 'getUrlData', ->
     assert.equal typeof data.timestamp, 'number'
 
 describe.skip '#pkcs7pad()', ->
-  it 'does something'
+  it 'not implemented'
 
 describe.skip '#decrypt()', ->
-  it 'does something'
+  it 'not implemented'
 
 describe '#encrypt()', ->
   it 'should encrypt string plaintext', ->
     assert.equal c.encrypt('this is a test'), 'IjA1ChOTDZjWxRwU/DBZTw=='
 
 describe.skip '#getUrl()', ->
-  it 'does something'
+  it 'not implemented'
 
 describe '#bounce()', ->
   it 'should generate bounce url', ->
