@@ -7,7 +7,8 @@
     "build": "coffee --bare --compile --output lib/ src/*.coffee",
     "prepublish": "coffee --bare --compile --output lib/ src/*.coffee",
     "postpublish": "rm -rf lib",
-    "test": "./node_modules/.bin/mocha -b -c --check-leaks test/suite.coffee -R progress -r coffee-script -w"
+    "test": "./node_modules/.bin/mocha -b -c --check-leaks test/suite.coffee -R progress -r coffee-script -w",
+    "test-drone": "node_modules/.bin/mocha test/suite.coffee -R spec -r coffee-script"
   },
   "engines": {
     "node": ">= 0.1.0"
