@@ -17,7 +17,7 @@ Connect.prototype.pkcs7pad = (string) ->
   buff = new Buffer(l + n)
   buff.fill(0x0)
   buff.write(string, 0, l, 'utf8')
-  buff.writeUInt8 '0x' + (n).toString(16), i for i in [l..l+n-1]
+  buff.writeUInt8 '0x' + (n).toString(16), i, false for i in [l..l+n-1]
   buff
 
 Connect.prototype.encrypt = (plaintext) ->
