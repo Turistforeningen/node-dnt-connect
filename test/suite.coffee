@@ -58,18 +58,18 @@ describe '#getUrl()', ->
   url = 'http://myapp.com/login'
 
   it 'should return valid bounce url', ->
-    assert /http:\/\/www.turistforeningen.no\/connect\/bounce\/\?client=myApp&data=/.test c.getUrl('bounce', url)
+    assert /https:\/\/www.turistforeningen.no\/connect\/bounce\/\?client=myApp&data=/.test c.getUrl('bounce', url)
 
   it 'should return valid signon url', ->
-    assert /http:\/\/www.turistforeningen.no\/connect\/signon\/\?client=myApp&data=/.test c.getUrl('signon', url)
+    assert /https:\/\/www.turistforeningen.no\/connect\/signon\/\?client=myApp&data=/.test c.getUrl('signon', url)
 
 describe '#bounce()', ->
   it 'should return valid bounce url', ->
     url = c.bounce('http://myapp.com/login')
-    assert /http:\/\/www.turistforeningen.no\/connect\/bounce\/\?client=myApp&data=/.test url
+    assert /https:\/\/www.turistforeningen.no\/connect\/bounce\/\?client=myApp&data=/.test url
 
 describe '#signon()', ->
   it 'should return valid signon url', ->
     url = c.signon('http://myapp.com/login')
-    assert /http:\/\/www.turistforeningen.no\/connect\/signon\/\?client=myApp&data=/.test url
+    assert /https:\/\/www.turistforeningen.no\/connect\/signon\/\?client=myApp&data=/.test url
 

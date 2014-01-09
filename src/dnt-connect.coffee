@@ -29,7 +29,7 @@ Connect.prototype.getPayload = (redirectUrl) ->
 
 Connect.prototype.getUrl = (type, redirectUrl) ->
   [
-    'http://www.turistforeningen.no/connect/'
+    'https://www.turistforeningen.no/connect/'
     type
     '/?client='
     @client
