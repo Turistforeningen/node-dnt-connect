@@ -17,7 +17,7 @@ Connect.prototype.decrypt = (ciphertext) ->
   cipher = crypto.createDecipheriv 'aes-256-ecb', @key, ''
   cipher.update(ciphertext, 'base64', 'utf8') + cipher.final('utf8')
 
-Connect.prototype.getUrlData = (redirectUrl) ->
+Connect.prototype.getPayload = (redirectUrl) ->
   JSON.stringify
     redirect_url: redirectUrl
     timestamp: Math.floor(new Date().getTime() / 1000)
@@ -29,7 +29,7 @@ Connect.prototype.getUrl = (type, redirectUrl) ->
     '/?client='
     @client
     '&data='
-    encodeURIComponent @encrypt @getUrlData redirectUrl
+    encodeURIComponent @encrypt @getPayload redirectUrl
   ].join('')
 
 Connect.prototype.bounce = (redirectUrl) ->

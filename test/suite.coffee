@@ -20,10 +20,10 @@ describe 'new Connect()', ->
     assert c.key instanceof Buffer
     assert.equal c.client, 'myApp'
 
-describe 'getUrlData', ->
+describe '#getPayload()', ->
   it 'should return stringified payload data', ->
     url = 'http://myapp.com/login'
-    data = JSON.parse(c.getUrlData url)
+    data = JSON.parse(c.getPayload url)
 
     assert.equal Object.keys(data).length, 2
     assert.equal data.redirect_url, url
