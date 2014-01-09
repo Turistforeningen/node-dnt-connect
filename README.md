@@ -26,7 +26,7 @@ The bounce url will bounce the user automaticly back to the provided
 `redirect_url` with user data if the user is authenticated.
 
 ```javascript
-var url = client.bounce('http://mysite.com/login')
+var url = client.bounce('http://mysite.com/auth')
 ```
 
 ### Signon
@@ -36,7 +36,7 @@ register a new user. The user credentials will be sent to the `redirect_url`
 when the users is sucessfully authenticated.
 
 ```javascript
-var url = client.signon('http://mysite.com/login')
+var url = client.signon('http://mysite.com/auth')
 ```
 
 ### Decrypt Response Data
@@ -45,6 +45,6 @@ All data sent and recieved is encrypted. In order to read the data you need to
 call `#decrypt()` wich will use your key to decrypt the data.
 
 ```javascript
-var data = client.decrypt(encryptedData);
+var data = client.decryptJSON(encryptedData);
 ```
 
