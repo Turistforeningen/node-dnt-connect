@@ -20,32 +20,56 @@ describe 'new Connect()', ->
     assert c.key instanceof Buffer
     assert.equal c.client, 'myApp'
 
+describe '#encrypt()', ->
+  it 'should encrypt string plaintext', ->
+    assert.equal c.encrypt('this is a test'), 'IjA1ChOTDZjWxRwU/DBZTw=='
+
+describe '#decrypt()', ->
+  it 'should decrypt ciphertext', ->
+    assert.equal c.decrypt('IjA1ChOTDZjWxRwU/DBZTw=='), 'this is a test'
+
+describe '#decryptJSON()', ->
+  it 'should return decrypt JSON data', ->
+    json =
+      foo: 'bar'
+      bar: 'foo'
+
+    encrypted = encodeURIComponent c.encrypt JSON.stringify json
+    assert.deepEqual c.decryptJSON(encrypted), json
+
+describe '#encryptJSON()', ->
+  it 'should return encrypted JSON data', ->
+    json =
+      foo: 'bar'
+      bar: 'foo'
+
+    assert.deepEqual c.decryptJSON(c.encryptJSON(json)), json
+
 describe '#getPayload()', ->
-  it 'should return stringified payload data', ->
+  it 'should return JSON payload', ->
     url = 'http://myapp.com/login'
-    data = JSON.parse(c.getPayload url)
+    data = c.getPayload url
 
     assert.equal Object.keys(data).length, 2
     assert.equal data.redirect_url, url
     assert.equal typeof data.timestamp, 'number'
 
-describe.skip '#decrypt()', ->
-  it 'not implemented'
+describe '#getUrl()', ->
+  url = 'http://myapp.com/login'
 
-describe '#encrypt()', ->
-  it 'should encrypt string plaintext', ->
-    assert.equal c.encrypt('this is a test'), 'IjA1ChOTDZjWxRwU/DBZTw=='
+  it 'should return valid bounce url', ->
+    assert /http:\/\/www.turistforeningen.no\/connect\/bounce\/\?client=myApp&data=/.test c.getUrl('bounce', url)
 
-describe.skip '#getUrl()', ->
-  it 'not implemented'
+  it 'should return valid signon url', ->
+    assert /http:\/\/www.turistforeningen.no\/connect\/signon\/\?client=myApp&data=/.test c.getUrl('signon', url)
 
 describe '#bounce()', ->
-  it 'should generate bounce url', ->
+  it 'should return valid bounce url', ->
     url = c.bounce('http://myapp.com/login')
     assert /http:\/\/www.turistforeningen.no\/connect\/bounce\/\?client=myApp&data=/.test url
 
 describe '#signon()', ->
-  it 'should generate signon url', ->
+  it 'should return valid signon url', ->
     url = c.signon('http://myapp.com/login')
     assert /http:\/\/www.turistforeningen.no\/connect\/signon\/\?client=myApp&data=/.test url
 
