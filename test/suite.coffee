@@ -19,7 +19,6 @@ describe 'new Connect()', ->
     assert c instanceof Connect
     assert c.key instanceof Buffer
     assert.equal c.client, 'myApp'
-    assert.equal c.blockSize, 16
 
 describe 'getUrlData', ->
   it 'should return stringified payload data', ->
@@ -29,17 +28,6 @@ describe 'getUrlData', ->
     assert.equal Object.keys(data).length, 2
     assert.equal data.redirect_url, url
     assert.equal typeof data.timestamp, 'number'
-
-describe '#pkcs7pad()', ->
-  it 'should pad input data lenght not multiplum of 16', ->
-    buff = c.pkcs7pad('a')
-    assert.equal buff.length, 16
-    assert.equal buff[i], 0xf for i in [1..15]
-
-  it 'should pad input data whos length is multiplum of 16', ->
-    buff = c.pkcs7pad('abcdefghijklmnop')
-    assert.equal buff.length, 32
-    assert.equal buff[i], 0x10 for i in [16..31]
 
 describe.skip '#decrypt()', ->
   it 'not implemented'

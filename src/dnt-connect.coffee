@@ -6,33 +6,21 @@ Connect = (client, key, opts) ->
 
   @client = client
   @key = new Buffer key, 'base64'
-  @blockSize = opts?.blockSize or 16
 
   @
 
-Connect.prototype.pkcs7pad = (string) ->
-  l = string.length
-  n = (@blockSize - (l % @blockSize))
-
-  buff = new Buffer(l + n)
-  buff.fill(0x0)
-  buff.write(string, 0, l, 'utf8')
-  buff.writeUInt8 '0x' + (n).toString(16), i, false for i in [l..l+n-1]
-  buff
-
 Connect.prototype.encrypt = (plaintext) ->
   cipher = crypto.createCipheriv 'aes-256-ecb', @key, ''
-  cipher.setAutoPadding false
-  cipher.update(@pkcs7pad(plaintext), undefined, 'base64') + cipher.final('base64')
+  cipher.update(plaintext, 'utf8', 'base64') + cipher.final('base64')
 
 Connect.prototype.decrypt = (ciphertext) ->
-  throw new Error('DNT Connect #decrypt() not implemented')
+  cipher = crypto.createDecipheriv 'aes-256-ecb', @key, ''
+  cipher.update(ciphertext, 'base64', 'utf8') + cipher.final('utf8')
 
-Connect.prototype.bounce = (redirectUrl) ->
-  @getUrl 'bounce', redirectUrl
-
-Connect.prototype.signon = (redirectUrl) ->
-  @getUrl 'signon', redirectUrl
+Connect.prototype.getUrlData = (redirectUrl) ->
+  JSON.stringify
+    redirect_url: redirectUrl
+    timestamp: Math.floor(new Date().getTime() / 1000)
 
 Connect.prototype.getUrl = (type, redirectUrl) ->
   [
@@ -44,10 +32,11 @@ Connect.prototype.getUrl = (type, redirectUrl) ->
     encodeURIComponent @encrypt @getUrlData redirectUrl
   ].join('')
 
-Connect.prototype.getUrlData = (redirectUrl) ->
-  JSON.stringify
-    redirect_url: redirectUrl
-    timestamp: Math.floor(new Date().getTime() / 1000)
+Connect.prototype.bounce = (redirectUrl) ->
+  @getUrl 'bounce', redirectUrl
+
+Connect.prototype.signon = (redirectUrl) ->
+  @getUrl 'signon', redirectUrl
 
 module.exports = Connect
 
