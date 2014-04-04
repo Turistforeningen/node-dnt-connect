@@ -9,8 +9,8 @@ echo 'Updating and installing ubuntu packages...'
 apt-get update
 apt-get install -y build-essential git curl
 
-# NodeJS via NVM
-echo "Installing Node Version Manager..."
+# Install NodeJS via NVM
+echo "Installing Node via NVM..."
 export HOME=/home/vagrant
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 echo "source ~/.nvm/nvm.sh" >> /home/vagrant/.bashrc
@@ -20,17 +20,30 @@ nvm install 0.10
 #nvm install 0.11
 export HOME=/home/root
 
+# Print current directory
+cd /vagrant; pwd; ls
+
+# Read secret environment variables
+DNT_CONNECT_USER=`cat ./env/DNT_CONNECT_USER`
+DNT_CONNECT_KEY=`cat ./env/DNT_CONNECT_KEY`
+
+# Set Environment Varaibles
+echo "Setting environment variables..."
+echo "export NODE_ENV=development"                  >> /home/vagrant/.bashrc
+echo "export DNT_CONNECT_USER=$DNT_CONNECT_USER"    >> /home/vagrant/.bashrc
+echo "export DNT_CONNECT_KEY=$DNT_CONNECT_KEY"      >> /home/vagrant/.bashrc
+echo "cd /vagrant"                                  >> /home/vagrant/.bashrc
+
 # NPM package install
 echo "Installing NPM packages..."
 echo "PATH=$PATH:/vagrant/node_modules/.bin" >> /home/vagrant/.bashrc
 PATH=$PATH:/vagrant/node_modules/.bin
-cd /vagrant/ && npm install
+cd /vagrant && rm -rf node_modules
+[ -f package.json ] && npm install
 
-# Set some env variables
-echo "cd /vagrant" >> /home/vagrant/.bashrc
-
-chown vagrant:vagrant /home/vagrant/.nvm
-# chown vagrant:vagrant /home/vagrant/tmp
+# Clean up permissions
+chown -R vagrant:vagrant /home/vagrant/.nvm
+chown -R vagrant:vagrant /home/vagrant/tmp
 
 SCRIPT
 
@@ -49,7 +62,18 @@ Vagrant.configure("2") do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network :forwarded_port, guest: 8080, host: 3004
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
+
+  # A Vagrant plugin that helps you reduce the amount of coffee you drink while
+  # waiting for boxes to be provisioned by sharing a common package cache among
+  # similiar VM instances. Kinda like vagrant-apt_cache or this magical snippet
+  # but targetting multiple package managers and Linux distros.
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.auto_detect = true
+
+    # For VirtualBox, we want to enable NFS for shared folders
+    # config.cache.enable_nfs = true
+  end
 
   # The shell provisioner allows you to upload and execute a script as the root
   # user within the guest machine.
