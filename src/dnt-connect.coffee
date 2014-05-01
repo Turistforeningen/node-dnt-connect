@@ -140,7 +140,7 @@ Connect.prototype.getUrl = (type, redirectUrl) ->
   "#{CONNECT_URL}/#{type}/?" + stringify
     client: @client
     data: data
-    hash: hash
+    hmac: hash
 
 ###
 #
