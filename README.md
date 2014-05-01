@@ -46,10 +46,11 @@ var url = client.signon('http://mysite.com/auth')
 ### Decrypt Response Data
 
 All data sent and recieved is encrypted. In order to read the data you need to
-call `#decrypt()` wich will use your key to decrypt the data.
+call `#decryptJSON()` wich will use your key and the provided HMAC hash to
+decrypt the data.
 
 ```javascript
-var data = client.decryptJSON(encryptedData);
+var data = client.decryptJSON(encryptedData, hmac);
 ```
 
 ## The MIT License (MIT)
