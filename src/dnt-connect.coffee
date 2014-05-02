@@ -39,6 +39,14 @@ Connect.prototype.hmacPlaintext = (plaintext, iv) ->
 
 ###
 #
+# Verify hmac of plaintext is correct
+#
+# @param <string-utf8> plaintext - plaintext to encipher
+# @param <Buffer> iv - initialization vector
+# @param <string-base64> hmac - hmac of plaintext
+#
+# @return {@code true} if hmac is valid; otherwise {@code false}
+#
 ###
 Connect.prototype.verifyPlaintext = (plaintext, iv, hmac) ->
   @hmacPlaintext(plaintext, iv) is hmac
