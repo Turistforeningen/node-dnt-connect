@@ -24,6 +24,13 @@ Connect = (client, key, opts) ->
 
 ###
 #
+# Generate hmac of plaintext and iv
+#
+# @param <string-utf8> plaintext - plaintext to encipher
+# @param <Buffer> iv - initialization vector
+#
+# @return <string-base64> of hmac
+#
 ###
 Connect.prototype.hmacPlaintext = (plaintext, iv) ->
   hmac = crypto.createHmac 'sha512', @key
