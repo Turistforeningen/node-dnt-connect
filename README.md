@@ -1,7 +1,7 @@
 DNT Connect ![Build Status](https://drone.io/github.com/Turistforeningen/node-dnt-connect/status.png)
 ===========
 
-Node.JS library for DNT's single sign on service DNT Connect
+Node.JS library for DNT's single sign on service – DNT Connect
 
 ## Requirements
 
@@ -51,10 +51,10 @@ All data sent and recieved to and from DNT Connect is encrypted by 256 bit AES c
 In order to read recieved data from DNT Connect your application needs to call `#decrypt()` wich
 will use your privat DNT Connect API key to decrypt and verify the data.
 
-The return from the #decrypt() method is an `Array` with to elements in it; `data` and `valid`. The
-reason for this is because of [Destructing
-assignments](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_(Merge_into_own_page.2Fsection))
-, new in ECMAScript 6.
+`NB` The return from the #decrypt() method is an `Array` with two elements in it; `data` and
+`valid`.  The reason for this is because of [Destructing
+assignments](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_(Merge_into_own_page.2Fsection)),
+new in ECMAScript 6.
 
 ```javascript
 try {
