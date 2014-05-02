@@ -15,11 +15,13 @@ npm install dnt-connect --save
 
 ## Usage
 
+```javascript
+var Connect = require('dnt-connect');
+```
+
 ### New Client
 
 ```javascript
-var Connect = require('dnt-connect');
-
 var client = new Connect('myClientName', 'mySecretKey');
 ```
 
