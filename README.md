@@ -53,7 +53,7 @@ will use your privat DNT Connect API key to decrypt and verify the data.
 
 The return from the #decrypt() method is an `Array` with to elements in it; `data` and `valid`. The
 reason for this is because of [Destructing
-assignments](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_(Merge_into_own_page.2Fsection)
+assignments](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_(Merge_into_own_page.2Fsection))
 , new in ECMAScript 6.
 
 ```javascript
