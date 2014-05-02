@@ -18,7 +18,7 @@ Connect = (client, key, opts) ->
 ###
 #
 ###
-Connect.prototype.hashPlaintext = (plaintext, iv) ->
+Connect.prototype.hmacPlaintext = (plaintext, iv) ->
   hmac = crypto.createHmac 'sha512', @key
   hmac.update Buffer.concat [iv, new Buffer(plaintext, 'utf8')]
   hmac.digest 'base64'
@@ -26,8 +26,8 @@ Connect.prototype.hashPlaintext = (plaintext, iv) ->
 ###
 #
 ###
-Connect.prototype.verifyPlaintext = (plaintext, iv, hash) ->
-  @hashPlaintext(plaintext, iv) is hash
+Connect.prototype.verifyPlaintext = (plaintext, iv, hmac) ->
+  @hmacPlaintext(plaintext, iv) is hmac
 
 ###
 #
@@ -60,48 +60,48 @@ Connect.prototype.decryptCiphertext = (ciphertext, iv) ->
 
 ###
 #
-# Encrypt plaintext and hash it
+# Encrypt plaintext and hmac it
 #
 # @param <String> plaintext - plaintext to encipher
 # @param <Buffer> iv - initialization vector
 #
-# @return <Array> with <String> ciphertext and <String> hash
+# @return <Array> with <String> ciphertext and <String> hmac
 #
 ###
 Connect.prototype.encryptAndHash = (plaintext, iv) ->
-  [@encryptPlaintext(plaintext, iv), @hashPlaintext(plaintext, iv)]
+  [@encryptPlaintext(plaintext, iv), @hmacPlaintext(plaintext, iv)]
 
 ###
 #
-# Decrypt ciphertext and verify hash
+# Decrypt ciphertext and verify hmac
 #
 # @param <String> ciphertext - ciphertext to decipher
-# @param <String> hash - hash of plaintext and iv
+# @param <String> hmac - hmac of plaintext and iv
 #
 # @return <Array> with <String> plaintext and <Boolean> verification
 #
 ###
-Connect.prototype.decryptAndVerify = (ciphertext, hash) ->
+Connect.prototype.decryptAndVerify = (ciphertext, hmac) ->
   ciphertext = new Buffer ciphertext, 'base64'
   iv = ciphertext.slice(0, 16)
   pt = @decryptCiphertext(ciphertext.slice(16), iv)
-  [pt, @verifyPlaintext(pt, iv, hash)]
+  [pt, @verifyPlaintext(pt, iv, hmac)]
 
 ###
 #
 # Decrypt encrypted data from DNT Connect
 #
 # @param <String> data - encrypted data
-# @param <String> hash - hashed data verification
+# @param <String> hmac - hmaced data verification
 #
 # @return <Array> with <Object> decrypted data and <Boolean> verification
 #
 ###
-Connect.prototype.decryptJSON = (data, hash) ->
+Connect.prototype.decryptJSON = (data, hmac) ->
   data = decodeURIComponent data
-  hash = decodeURIComponent hash
+  hmac = decodeURIComponent hmac
 
-  [json, valid] = @decryptAndVerify data, hash
+  [json, valid] = @decryptAndVerify data, hmac
 
   # @TODO(starefossen) check json.timestamp to prevent reply attacks (60 sec)
 
@@ -109,17 +109,17 @@ Connect.prototype.decryptJSON = (data, hash) ->
 
 ###
 #
-# Encrypt JSON and return ciphertext and hash
+# Encrypt JSON and return ciphertext and hmac
 #
 # @param <Object> json - json data to encrypt
 # @param <Buffer> iv - initialization vector
 #
-# @return <Array> with <String> ciphertext and <String> hash
+# @return <Array> with <String> ciphertext and <String> hmac
 #
 ###
 Connect.prototype.encryptJSON = (json, iv) ->
-  [cipher, hash] = @encryptAndHash JSON.stringify(json), iv
-  [encodeURIComponent(cipher), encodeURIComponent(hash)]
+  [cipher, hmac] = @encryptAndHash JSON.stringify(json), iv
+  [encodeURIComponent(cipher), encodeURIComponent(hmac)]
 
 ###
 #
@@ -132,7 +132,7 @@ Connect.prototype.encryptJSON = (json, iv) ->
 #
 ###
 Connect.prototype.getUrl = (type, redirectUrl) ->
-  [data, hash] = @encryptJSON
+  [data, hmac] = @encryptJSON
     redirect_url: redirectUrl
     timestamp: Math.floor(new Date().getTime() / 1000)
   , iv = crypto.randomBytes 16
@@ -140,7 +140,7 @@ Connect.prototype.getUrl = (type, redirectUrl) ->
   "#{CONNECT_URL}/#{type}/?" + stringify
     client: @client
     data: data
-    hmac: hash
+    hmac: hmac
 
 ###
 #

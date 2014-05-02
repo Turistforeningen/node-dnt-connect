@@ -49,15 +49,15 @@ describe 'new Connect()', ->
     assert c.key instanceof Buffer
     assert.equal c.client, 'myApp'
 
-describe '#hashPlaintext()', ->
+describe '#hmacPlaintext()', ->
   it 'should return HMAC for plaintext and iv', ->
-    assert.equal c.hashPlaintext(pt, iv), hs
+    assert.equal c.hmacPlaintext(pt, iv), hs
 
 describe '#verifyPlaintext()', ->
-  it 'should return true for correct hash', ->
+  it 'should return true for correct hmac', ->
     assert.equal c.verifyPlaintext(pt, iv, hs), true
 
-  it 'should return false for incorrect hash', ->
+  it 'should return false for incorrect hmac', ->
     hs = [
       'AKMvNyM6MKg8BFfWtLWSDrPRHmIZzfU8DOo/np3SQC9RXVj4JqpfpYz6nXzoUEa5Hp//a12'
       'sOmsAzdc+3S/Lug=='
@@ -81,32 +81,32 @@ describe '#decryptCiphertext()', ->
     assert.equal c.decryptCiphertext(new Buffer(ct, 'base64'), iv), pt
 
 describe '#encryptAndHash()', ->
-  it 'should return ciphertext, prepended iv, and hash for plaintext and iv', ->
-    [ciphertext, hash] = c.encryptAndHash pt, iv
+  it 'should return ciphertext, prepended iv, and hmac for plaintext and iv', ->
+    [ciphertext, hmac] = c.encryptAndHash pt, iv
 
-    assert.equal hash, hs
+    assert.equal hmac, hs
     assert.equal ciphertext, ivct
 
 describe '#decryptAndVerify()', ->
-  it 'should return plaintext and validation for ciphertext and hash', ->
+  it 'should return plaintext and validation for ciphertext and hmac', ->
     [plaintext, valid] = c.decryptAndVerify ivct, hs
 
     assert.equal valid, true
     assert.equal plaintext, pt
 
 describe '#encryptJSON()', ->
-  it 'should return encrypted JSON data and verification hash', ->
-    [ciphertext, hash] = c.encryptJSON JSON.parse(pt), iv
+  it 'should return encrypted JSON data and verification hmac', ->
+    [ciphertext, hmac] = c.encryptJSON JSON.parse(pt), iv
 
     assert.equal ciphertext, encodeURIComponent ivct
-    assert.equal hash, encodeURIComponent hs
+    assert.equal hmac, encodeURIComponent hs
 
 describe '#decryptJSON()', ->
-  it 'should return decrypted JSON data and verify hash', ->
+  it 'should return decrypted JSON data and verify hmac', ->
     data = encodeURIComponent ivct
-    hash = encodeURIComponent hs
+    hmac = encodeURIComponent hs
 
-    [json, valid] = c.decryptJSON data, hash
+    [json, valid] = c.decryptJSON data, hmac
 
     assert.equal valid, true
     assert.deepEqual json, JSON.parse(pt)
@@ -115,7 +115,7 @@ describe '#getUrl()', ->
   url = null
   beforeEach -> url = 'http://myapp.com/login'
 
-  it 'should return valid url with encrypted data and hash', ->
+  it 'should return valid url with encrypted data and hmac', ->
     [url, params] = c.getUrl('bounce', url).split '?', 2
 
     params = gs.parse params
@@ -123,9 +123,9 @@ describe '#getUrl()', ->
     assert.equal url, 'https://www.turistforeningen.no/connect/bounce/'
     assert.equal params.client, 'myApp'
     assert.equal typeof params.data, 'string'
-    assert.equal typeof params.hash, 'string'
+    assert.equal typeof params.hmac, 'string'
 
-    [json, valid] = c.decryptJSON params.data, params.hash
+    [json, valid] = c.decryptJSON params.data, params.hmac
 
     assert.equal valid, true
     assert.equal json.redirect_url, 'http://myapp.com/login'
@@ -140,7 +140,7 @@ describe '#bounce()', ->
     assert.equal url, 'https://www.turistforeningen.no/connect/bounce/'
     assert.equal params.client, 'myApp'
     assert.equal typeof params.data, 'string'
-    assert.equal typeof params.hash, 'string'
+    assert.equal typeof params.hmac, 'string'
 
 describe '#signon()', ->
   it 'should return valid signon url', ->
@@ -151,5 +151,5 @@ describe '#signon()', ->
     assert.equal url, 'https://www.turistforeningen.no/connect/signon/'
     assert.equal params.client, 'myApp'
     assert.equal typeof params.data, 'string'
-    assert.equal typeof params.hash, 'string'
+    assert.equal typeof params.hmac, 'string'
 
