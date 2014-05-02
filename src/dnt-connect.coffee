@@ -4,6 +4,14 @@ CONNECT_URL = 'https://www.turistforeningen.no/connect'
 
 ###
 #
+# Create DNT Connect client
+#
+# @param <string-utf8> client - DNT Connect client name
+# @param <string-base64> key - DNT Connect API key
+# @param <object> opts - options
+#
+# @return <Connect> class instance
+#
 ###
 Connect = (client, key, opts) ->
   throw new Error('DNT Connect client not defined') if not client
