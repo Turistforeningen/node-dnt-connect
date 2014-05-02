@@ -73,6 +73,9 @@ describe '#verifyPlaintext()', ->
     assert.equal c.verifyPlaintext(pt, iv, hs), false
 
 describe '#encryptPlaintext()', ->
+  it 'ciphertext length should be multiple of 16', ->
+    assert.equal new Buffer(c.encryptPlaintext(pt, iv), 'base64').length % 16, 0
+
   it 'should return ciphertext, prepended iv, for plaintext and iv input', ->
     assert.equal c.encryptPlaintext(pt, iv), ivct
 
