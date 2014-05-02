@@ -3,7 +3,7 @@ DNT Connect ![Build Status](https://drone.io/github.com/Turistforeningen/node-dn
 
 Node.JS library for DNT's single sign on service DNT Connect
 
-## Requires
+## Requirements
 
 Require Node.JS version `>= 0.10`.
 
