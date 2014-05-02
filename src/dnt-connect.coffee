@@ -55,10 +55,10 @@ Connect.prototype.verifyPlaintext = (plaintext, iv, hmac) ->
 #
 # Encipher plaintext and prepend iv
 #
-# @param <String> plaintext - plaintext to encipher
+# @param <string-utf8> plaintext - plaintext to encipher
 # @param <Buffer> iv - initialization vector
 #
-# @return base64 encoded <String> of the iv prepended to the ciphertext
+# @return <string-base64> of the iv prepended to the ciphertext
 #
 ###
 Connect.prototype.encryptPlaintext = (plaintext, iv) ->
@@ -73,7 +73,7 @@ Connect.prototype.encryptPlaintext = (plaintext, iv) ->
 # @param <Buffer> ciphertext - ciphertext to decipher
 # @param <Buffer> iv - initialization vector
 #
-# @return utf-8 encoded <String> with plaintext
+# @return <string-utf8> with plaintext
 #
 ###
 Connect.prototype.decryptCiphertext = (ciphertext, iv) ->
@@ -84,10 +84,10 @@ Connect.prototype.decryptCiphertext = (ciphertext, iv) ->
 #
 # Encrypt plaintext and hmac it
 #
-# @param <String> plaintext - plaintext to encipher
+# @param <string-utf8> plaintext - plaintext to encipher
 # @param <Buffer> iv - initialization vector
 #
-# @return <Array> with <String> ciphertext and <String> hmac
+# @return <Array> with <string-base64> ciphertext and <string-base64> hmac
 #
 ###
 Connect.prototype.encryptAndHash = (plaintext, iv) ->
@@ -97,10 +97,10 @@ Connect.prototype.encryptAndHash = (plaintext, iv) ->
 #
 # Decrypt ciphertext and verify hmac
 #
-# @param <String> ciphertext - ciphertext to decipher
-# @param <String> hmac - hmac of plaintext and iv
+# @param <string-base64> ciphertext - ciphertext to decipher
+# @param <string-base64> hmac - hmac of plaintext and iv
 #
-# @return <Array> with <String> plaintext and <Boolean> verification
+# @return <Array> with <string-utf8> plaintext and <boolean> verification
 #
 ###
 Connect.prototype.decryptAndVerify = (ciphertext, hmac) ->
@@ -113,10 +113,10 @@ Connect.prototype.decryptAndVerify = (ciphertext, hmac) ->
 #
 # Decrypt encrypted data from DNT Connect
 #
-# @param <String> data - encrypted data
-# @param <String> hmac - hmaced data verification
+# @param <string-base64> data - encrypted data
+# @param <string-base64> hmac - hmaced data verification
 #
-# @return <Array> with <Object> decrypted data and <Boolean> verification
+# @return <Array> with <object> decrypted data and <boolean> verification
 #
 ###
 Connect.prototype.decryptJSON = (data, hmac) ->
@@ -133,10 +133,10 @@ Connect.prototype.decryptJSON = (data, hmac) ->
 #
 # Encrypt JSON and return ciphertext and hmac
 #
-# @param <Object> json - json data to encrypt
+# @param <object> json - json data to encrypt
 # @param <Buffer> iv - initialization vector
 #
-# @return <Array> with <String> ciphertext and <String> hmac
+# @return <Array> with <string-base64> ciphertext and <string-base64> hmac
 #
 ###
 Connect.prototype.encryptJSON = (json, iv) ->
@@ -147,10 +147,10 @@ Connect.prototype.encryptJSON = (json, iv) ->
 #
 # Get DNT Connect url for service type
 #
-# @param <String> type - authentication type
-# @param <String> redirectUrl - url to redirect user back to
+# @param <string-utf8> type - authentication type
+# @param <string-utf8> redirectUrl - url to redirect user back to
 #
-# @return <String> url to DNT Connect
+# @return <string-utf8> url to DNT Connect
 #
 ###
 Connect.prototype.getUrl = (type, redirectUrl) ->
@@ -165,9 +165,9 @@ Connect.prototype.getUrl = (type, redirectUrl) ->
 #
 # Bounce user to DNT Connect to check authentication
 #
-# @param <String> redirectUrl - url to redirect user back to
+# @param <string-utf8> redirectUrl - url to redirect user back to
 #
-# @return <String> url to DNT Connect
+# @return <string-utf8> url to DNT Connect
 #
 ###
 Connect.prototype.bounce = (redirectUrl) ->
@@ -177,9 +177,9 @@ Connect.prototype.bounce = (redirectUrl) ->
 #
 # Make user sign on using DNT Connect
 #
-# @param <String> redirectUrl - url to redirect user back to
+# @param <string-utf8> redirectUrl - url to redirect user back to
 #
-# @return <String> url to DNT Connect
+# @return <string-utf8> url to DNT Connect
 #
 ###
 Connect.prototype.signon = (redirectUrl) ->
