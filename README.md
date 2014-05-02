@@ -1,9 +1,9 @@
 DNT Connect ![Build Status](https://drone.io/github.com/Turistforeningen/node-dnt-connect/status.png)
 ===========
 
-Node.JS library for DNT's single sign on service DNT Connect
+Node.JS library for DNT's single sign on service – DNT Connect
 
-## Requires
+## Requirements
 
 Require Node.JS version `>= 0.10`.
 
@@ -15,11 +15,13 @@ npm install dnt-connect --save
 
 ## Usage
 
+```javascript
+var Connect = require('dnt-connect');
+```
+
 ### New Client
 
 ```javascript
-var Connect = require('dnt-connect');
-
 var client = new Connect('myClientName', 'mySecretKey');
 ```
 
@@ -43,13 +45,29 @@ when the users is sucessfully authenticated.
 var url = client.signon('http://mysite.com/auth')
 ```
 
-### Decrypt Response Data
+### Decrypt Response
 
-All data sent and recieved is encrypted. In order to read the data you need to
-call `#decrypt()` wich will use your key to decrypt the data.
+All data sent and recieved to and from DNT Connect is encrypted by 256 bit AES cipher in CBC mode.
+In order to read recieved data from DNT Connect your application needs to call `#decrypt()` wich
+will use your privat DNT Connect API key to decrypt and verify the data.
+
+`NB` The return from the #decrypt() method is an `Array` with two elements in it; `data` and
+`valid`.  The reason for this is because of [Destructing
+assignments](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_(Merge_into_own_page.2Fsection)),
+new in ECMAScript 6.
 
 ```javascript
-var data = client.decryptJSON(encryptedData);
+try {
+  var data = client.decrypt({data: queryData, hmac: queryHmac});
+  if (data[1] is false) {
+    console.log('Validation failed');
+  } else {
+    console.log('Decrypted data');
+    console.log(data[0]);
+  }
+} catch (e) {
+  // Decryption or serialization failed
+}
 ```
 
 ## The MIT License (MIT)
