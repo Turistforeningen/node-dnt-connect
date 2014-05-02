@@ -1,5 +1,4 @@
 crypto = require 'crypto'
-stringify = require('querystring').stringify
 
 CONNECT_URL = 'https://www.turistforeningen.no/connect'
 
@@ -137,10 +136,7 @@ Connect.prototype.getUrl = (type, redirectUrl) ->
     timestamp: Math.floor(new Date().getTime() / 1000)
   , iv = crypto.randomBytes 16
 
-  "#{CONNECT_URL}/#{type}/?" + stringify
-    client: @client
-    data: data
-    hmac: hmac
+  "#{CONNECT_URL}/#{type}/?client=#{@client}&data=#{data}&hmac=#{hmac}"
 
 ###
 #
