@@ -185,5 +185,22 @@ Connect.prototype.bounce = (redirectUrl) ->
 Connect.prototype.signon = (redirectUrl) ->
   @getUrl 'signon', redirectUrl
 
+
+###
+#
+# Decrypt DNT Connect data
+#
+# @param <object> query - query parameters from DNT Connect
+#
+# @return <Array> with <object> decrypted data and <boolean> verification
+#
+###
+Connect.prototype.decrypt = (query) ->
+  throw new Error('Param query.data is not defined') if query?.data is undefined
+  throw new Error('Param query.hmac is not defiend') if query?.hmac is undefined
+
+  @decryptJSON query.data, query.hmac
+
+
 module.exports = Connect
 

@@ -156,3 +156,27 @@ describe '#signon()', ->
     assert.equal typeof params.data, 'string'
     assert.equal typeof params.hmac, 'string'
 
+describe '#decrypt()', ->
+  it 'should handle missing query parameter', ->
+    assert.throws ->
+      c.decrypt()
+    , /Param query.data is not defined/
+
+  it 'should handle missing data property', ->
+    assert.throws ->
+      c.decrypt {}
+    , /Param query.data is not defined/
+
+  it 'should handle missing hmac property', ->
+    assert.throws ->
+      c.decrypt data: ivct
+    , /Param query.hmac is not defiend/
+
+  it 'should decrypt valid ciphertext and hmac', ->
+    [json, valid] = c.decrypt
+      data: encodeURIComponent(ivct)
+      hmac: encodeURIComponent(hs)
+
+    assert.equal valid, true
+    assert.deepEqual json, JSON.parse(pt)
+
