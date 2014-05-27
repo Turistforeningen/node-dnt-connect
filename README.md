@@ -1,7 +1,13 @@
 DNT Connect [![Build Status](https://drone.io/github.com/Turistforeningen/node-dnt-connect/status.png)](https://drone.io/github.com/Turistforeningen/node-dnt-connect)
 ===========
 
-Node.JS library for DNT's single sign on service – DNT Connect
+Node.JS library for DNT's single sign on service – DNT Connect. This README
+explains the technical implemetation of using DNT Connect in your Node
+application. For detaials on data returned through the API and various response
+codes see [this
+document](https://turistforeningen.atlassian.net/wiki/display/dnt/DNT+connect).
+Please contact opensource@turistforneingen.no if you are interested in using DNT
+Connect for your application in order to get an API key.
 
 ## Requirements
 
