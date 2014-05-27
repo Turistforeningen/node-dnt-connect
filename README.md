@@ -59,7 +59,7 @@ new in ECMAScript 6.
 ```javascript
 try {
   var data = client.decrypt({data: queryData, hmac: queryHmac});
-  if (data[1] is false) {
+  if (data[1] === false) {
     console.log('Validation failed');
   } else {
     console.log('Decrypted data');
