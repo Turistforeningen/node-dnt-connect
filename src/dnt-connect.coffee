@@ -1,6 +1,6 @@
 crypto = require 'crypto'
 
-CONNECT_URL = 'https://www.turistforeningen.no/connect'
+CONNECT_URL = 'https://www.dnt.no/connect'
 
 ###
 #
