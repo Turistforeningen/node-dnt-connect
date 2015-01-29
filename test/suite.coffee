@@ -123,7 +123,7 @@ describe '#getUrl()', ->
 
     params = gs.parse params
 
-    assert.equal url, 'https://www.turistforeningen.no/connect/bounce/'
+    assert.equal url, 'https://www.dnt.no/connect/bounce/'
     assert.equal params.client, 'myApp'
     assert.equal typeof params.data, 'string'
     assert.equal typeof params.hmac, 'string'
@@ -140,7 +140,7 @@ describe '#bounce()', ->
 
     params = gs.parse params
 
-    assert.equal url, 'https://www.turistforeningen.no/connect/bounce/'
+    assert.equal url, 'https://www.dnt.no/connect/bounce/'
     assert.equal params.client, 'myApp'
     assert.equal typeof params.data, 'string'
     assert.equal typeof params.hmac, 'string'
@@ -151,7 +151,7 @@ describe '#signon()', ->
 
     params = gs.parse params
 
-    assert.equal url, 'https://www.turistforeningen.no/connect/signon/'
+    assert.equal url, 'https://www.dnt.no/connect/signon/'
     assert.equal params.client, 'myApp'
     assert.equal typeof params.data, 'string'
     assert.equal typeof params.hmac, 'string'
