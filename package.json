@@ -1,6 +1,6 @@
 {
   "name": "dnt-connect",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Node.JS library for DNT's single sign on service DNT Connect",
   "main": "lib/dnt-connect.js",
   "scripts": {
