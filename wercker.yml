@@ -8,10 +8,6 @@ build:
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
 
-    - script:
-        name: echo imagemagick information
-        code: echo "$(convert -version)"
-
     - npm-install
 
     - script:
