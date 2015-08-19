@@ -4,11 +4,12 @@
   "description": "Node.JS library for DNT's single sign on service DNT Connect",
   "main": "lib/dnt-connect.js",
   "scripts": {
-    "build": "coffee --bare --compile --output lib/ src/*.coffee",
-    "prepublish": "coffee --bare --compile --output lib/ src/*.coffee",
-    "postpublish": "rm -rf lib",
-    "test": "./node_modules/.bin/mocha -b -c --check-leaks test/suite.coffee -R progress -r coffee-script -w",
-    "test-drone": "node_modules/.bin/mocha test/suite.coffee -R spec -r coffee-script"
+    "build": "coffee -c -b -o lib/ src/*.coffee",
+    "prepublish": "coffee -c -b -o lib/ src/*.coffee",
+    "postpublish": "rm -rf lib/*",
+    "hint": "coffeelint src test",
+    "test": "mocha --compilers coffee:coffee-script/register test/suite.coffee",
+    "watch": "mocha -w -b -c --check-leaks -R progress --compilers coffee:coffee-script/register test/suite.coffee"
   },
   "engines": {
     "node": ">= 0.1.0"

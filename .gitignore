@@ -1,9 +1,2 @@
-.DS_Store
-.vagrant/
+.env
 lib/
-env/
-.ssh
-*.swp
-*.swo
-node_modules
-npm-debug.log

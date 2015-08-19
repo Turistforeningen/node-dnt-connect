@@ -1,0 +1,12 @@
+dev:
+  image: iojs:slim
+  working_dir: /usr/src/app
+  volumes:
+    - ".:/usr/src/app"
+  command: "npm run watch"
+  env_file: .env
+  environment:
+    - NODE_ENV=development
+    - NPM_CONFIG_LOGLEVEL=info
+    - NPM_PACKAGE_CONFIG_UNSAFE_PERM=true
+    - NPM_CONFIG_UNSAFE_PERM=true
