@@ -179,4 +179,3 @@ describe '#decrypt()', ->
 
     assert.equal valid, true
     assert.deepEqual json, JSON.parse(pt)
-

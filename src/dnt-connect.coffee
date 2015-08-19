@@ -203,4 +203,3 @@ Connect.prototype.decrypt = (query) ->
 
 
 module.exports = Connect
-
