@@ -1,5 +1,10 @@
-DNT Connect [![Build Status](https://drone.io/github.com/Turistforeningen/node-dnt-connect/status.png)](https://drone.io/github.com/Turistforeningen/node-dnt-connect)
-===========
+# DNT Connect
+
+[![Build status](https://img.shields.io/wercker/ci/55d488db5b9a52de3412c5c3.svg "Build status")](https://app.wercker.com/project/bykey/209f4c3d6a5404155c2e2b70af27189f)
+[![NPM downloads](https://img.shields.io/npm/dm/dnt-connect.svg "NPM downloads")](https://www.npmjs.com/package/dnt-connect)
+[![NPM version](https://img.shields.io/npm/v/dnt-connect.svg "NPM version")](https://www.npmjs.com/package/dnt-connect)
+[![Node version](https://img.shields.io/node/v/dnt-connect.svg "Node version")](https://www.npmjs.com/package/dnt-connect)
+[![Dependency status](https://img.shields.io/david/turistforeningen/node-dnt-connect.svg "Dependency status")](https://david-dm.org/turistforeningen/node-dnt-connect)
 
 Node.JS library for DNT's single sign on service – DNT Connect. This README
 explains the technical implemetation of using DNT Connect in your Node
