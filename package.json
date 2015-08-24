@@ -2,21 +2,16 @@
   "name": "dnt-connect",
   "version": "2.0.3",
   "description": "Node.JS library for DNT's single sign on service DNT Connect",
-  "main": "lib/dnt-connect.js",
+  "main": "index.js",
   "scripts": {
-    "build": "coffee -c -b -o lib/ src/*.coffee",
-    "prepublish": "coffee -c -b -o lib/ src/*.coffee",
-    "postpublish": "rm -rf lib/*",
-    "hint": "coffeelint src test",
-    "test": "mocha --compilers coffee:coffee-script/register test/suite.coffee",
-    "watch": "mocha -w -b -c --check-leaks -R progress --compilers coffee:coffee-script/register test/suite.coffee"
+    "test": "mocha -b -c --check-leaks -R spec test.js",
+    "watch": "mocha -w -b -c --check-leaks -R progress test.js"
   },
   "engines": {
-    "node": ">= 0.1.0"
+    "node": ">= 4.0.0",
+    "iojs": ">= 1.0.0"
   },
   "devDependencies": {
-    "coffee-script": "1.9.3",
-    "coffeelint": "^1.11.0",
     "mocha": "2.2.5"
   },
   "repository": {
