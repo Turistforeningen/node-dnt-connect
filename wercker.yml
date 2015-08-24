@@ -11,7 +11,7 @@ build:
     - npm-install
 
     - script:
-        name: coffeelint
+        name: eslint
         code: npm run hint
 
     - npm-test
