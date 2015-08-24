@@ -246,7 +246,7 @@ describe('#decrypt()', function describe() {
   });
 });
 
-describe.only('#middleware()', function describe() {
+describe('#middleware()', function describe() {
   const request = require('supertest');
   const app = request(require('./examples/server'));
 
