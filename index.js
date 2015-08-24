@@ -255,4 +255,38 @@ C.prototype.decrypt = function decrypt(query) {
   return this.decryptJSON(query.data, query.hmac);
 };
 
+C.prototype.middleware = function middleare(type) {
+  const that = this;
+
+  return function dntConnectMiddleware(req, res, next) {
+    if (req && req.query && req.query.data) {
+      try {
+        const data = that.decrypt(req.query);
+
+        if (data[1] === false) {
+          req.dntConnect = {
+            err: new ('DNT Connect: HMAC verification failed'),
+            data: null,
+          };
+        } else {
+          req.dntConnect = {
+            err: null,
+            data: data[0],
+          };
+        }
+      } catch (e) {
+        req.dntConnect = {
+          err: e,
+          data: null,
+        };
+      }
+
+      next();
+    } else {
+      const redirectUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+      res.redirect(that[type](redirectUrl));
+    }
+  };
+};
+
 module.exports = C;
