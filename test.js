@@ -11,6 +11,9 @@ let iv;
 let ivct;
 let pt;
 
+process.env.DNT_CONNECT_CLIENT = 'myApp';
+process.env.DNT_CONNECT_KEY = 'dfadfe1242fdsffdg33q43sdfgdasfadsfsfdasdfwd';
+
 beforeEach(function beforeEach() {
   iv = new Buffer('FDVC0Adh8UEFaeVXwUNHEw==', 'base64');
   pt = JSON.stringify({
@@ -42,6 +45,8 @@ beforeEach(function beforeEach() {
   ].join('');
 
   ivct = Buffer.concat([iv, new Buffer(ct, 'base64')]).toString('base64');
+
+  c = new Connect(process.env.DNT_CONNECT_CLIENT, process.env.DNT_CONNECT_KEY);
 });
 
 describe('new Connect()', function describe() {
@@ -58,7 +63,6 @@ describe('new Connect()', function describe() {
   });
 
   it('should make new client instance', function it() {
-    c = new Connect('myApp', 'dfadfe1242fdsffdg33q43sdfgdasfadsfsfdasdfwd');
     assert(c instanceof Connect);
     assert(c.key instanceof Buffer);
     assert.equal(c.client, 'myApp');
@@ -239,5 +243,30 @@ describe('#decrypt()', function describe() {
 
     assert.equal(valid, true);
     assert.deepEqual(json, JSON.parse(pt));
+  });
+});
+
+describe.only('#middleware()', function describe() {
+  const request = require('supertest');
+  const app = request(require('./examples/server'));
+
+  it('should redirect user to DNT Connect', function it(done) {
+    app.get('/connect')
+      .expect(302)
+      .expect('location', /https:\/\/www.dnt.no\/connect\/signon/)
+      .end(done);
+  });
+
+  it('should authenticate user from DNT Connect', function it(done) {
+    const ref = c.encryptJSON(JSON.parse(pt), iv);
+    const ciphertext = ref[0];
+    const hmac = ref[1];
+
+    app.get(`/connect?data=${ciphertext}&hmac=${hmac}`)
+      .expect(200)
+      .expect(function expect(res) {
+        assert.equal(res.body.data.order_id, 104);
+      })
+      .end(done);
   });
 });

@@ -4,7 +4,7 @@
   "description": "Node.JS library for DNT's single sign on service DNT Connect",
   "main": "index.js",
   "scripts": {
-    "hint": "eslint index.js test.js",
+    "hint": "eslint index.js test.js examples",
     "test": "mocha -b -c --check-leaks -R spec test.js",
     "watch": "mocha -w -b -c --check-leaks -R progress test.js"
   },
@@ -14,9 +14,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.0.10",
+    "body-parser": "^1.13.3",
     "eslint": "^1.2.1",
     "eslint-config-airbnb": "0.0.8",
-    "mocha": "2.2.5"
+    "express": "^4.13.3",
+    "mocha": "2.2.5",
+    "supertest": "^1.0.1"
   },
   "repository": {
     "type": "git",
