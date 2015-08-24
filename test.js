@@ -50,19 +50,19 @@ beforeEach(function beforeEach() {
 });
 
 describe('new Connect()', function describe() {
-  it('should throw error for missing client string', function it() {
+  it('throws error for missing client string', function it() {
     assert.throws(function throws() {
       c = new Connect();
     }, /DNT Connect client not defined/);
   });
 
-  it('should throw error for missing key string', function it() {
+  it('throws error for missing key string', function it() {
     assert.throws(function throws() {
       c = new Connect('myApp');
     }, /DNT Connect key not defined/);
   });
 
-  it('should make new client instance', function it() {
+  it('returns new client instance', function it() {
     assert(c instanceof Connect);
     assert(c.key instanceof Buffer);
     assert.equal(c.client, 'myApp');
@@ -70,26 +70,26 @@ describe('new Connect()', function describe() {
 });
 
 describe('#hmacPlaintext()', function describe() {
-  it('should return HMAC for plaintext and iv', function it() {
+  it('returns HMAC for plaintext and iv', function it() {
     assert.equal(c.hmacPlaintext(pt, iv), hs);
   });
 });
 
 describe('#verifyPlaintext()', function describe() {
-  it('should return true for correct hmac', function it() {
+  it('returns true for correct hmac', function it() {
     assert.equal(c.verifyPlaintext(pt, iv, hs), true);
   });
 
-  it('should return false for incorrect hmac', function it() {
+  it('returns false for incorrect hmac', function it() {
     hs = ['AKMvNyM6MKg8BFfWtLWSDrPRHmIZzfU8DOo/np3SQC9RXVj4JqpfpYz6nXzoUEa5Hp//a12', 'sOmsAzdc+3S/Lug=='].join('');
     assert.equal(c.verifyPlaintext(pt, iv, hs), false);
   });
-  it('should return false for incorrect iv', function it() {
+  it('returns false for incorrect iv', function it() {
     iv = new Buffer('ADVC0Adh8UEFaeVXwUNHEw==', 'base64');
     assert.equal(c.verifyPlaintext(pt, iv, hs), false);
   });
 
-  it('should return false for incorrect plaintext', function it() {
+  it('returns false for incorrect plaintext', function it() {
     pt = JSON.stringify({
       foo: 'baz',
     });
@@ -98,22 +98,22 @@ describe('#verifyPlaintext()', function describe() {
 });
 
 describe('#encryptPlaintext()', function describe() {
-  it('ciphertext length should be multiple of 16', function it() {
+  it('returns ciphertext with length multiple of 16', function it() {
     assert.equal(new Buffer(c.encryptPlaintext(pt, iv), 'base64').length % 16, 0);
   });
-  it('should return ciphertext, prepended iv, for plaintext and iv input', function it() {
+  it('returns ciphertext, prepended iv, for plaintext and iv input', function it() {
     assert.equal(c.encryptPlaintext(pt, iv), ivct);
   });
 });
 
 describe('#decryptCiphertext()', function describe() {
-  it('should return plaintext for ciphertext and iv input', function it() {
+  it('returns plaintext for ciphertext and iv input', function it() {
     assert.equal(c.decryptCiphertext(new Buffer(ct, 'base64'), iv), pt);
   });
 });
 
 describe('#encryptAndHash()', function describe() {
-  it('should return ciphertext, prepended iv, and hmac for plaintext and iv', function it() {
+  it('returns ciphertext, prepended iv, and hmac for plaintext and iv', function it() {
     const ref = c.encryptAndHash(pt, iv);
     const ciphertext = ref[0];
     const hmac = ref[1];
@@ -124,7 +124,7 @@ describe('#encryptAndHash()', function describe() {
 });
 
 describe('#decryptAndVerify()', function describe() {
-  it('should return plaintext and validation for ciphertext and hmac', function it() {
+  it('returns plaintext and validation for ciphertext and hmac', function it() {
     const ref = c.decryptAndVerify(ivct, hs);
     const plaintext = ref[0];
     const valid = ref[1];
@@ -135,7 +135,7 @@ describe('#decryptAndVerify()', function describe() {
 });
 
 describe('#encryptJSON()', function describe() {
-  it('should return encrypted JSON data and verification hmac', function it() {
+  it('returns encrypted JSON data and verification hmac', function it() {
     const ref = c.encryptJSON(JSON.parse(pt), iv);
     const ciphertext = ref[0];
     const hmac = ref[1];
@@ -146,7 +146,7 @@ describe('#encryptJSON()', function describe() {
 });
 
 describe('#decryptJSON()', function describe() {
-  it('should return decrypted JSON data and verify hmac', function it() {
+  it('returns decrypted JSON data and verify hmac', function it() {
     const data = encodeURIComponent(ivct);
     const hmac = encodeURIComponent(hs);
 
@@ -162,7 +162,7 @@ describe('#decryptJSON()', function describe() {
 describe('#getUrl()', function describe() {
   const _url = 'http://myapp.com/login';
 
-  it('should return valid url with encrypted data and hmac', function it() {
+  it('returns valid url with encrypted data and hmac', function it() {
     const ref = c.getUrl('bounce', _url).split('?', 2);
     const url = ref[0];
     const params = gs.parse(ref[1]);
@@ -185,7 +185,7 @@ describe('#getUrl()', function describe() {
 describe('#bounce()', function describe() {
   const _url = 'http://myapp.com/login';
 
-  it('should return valid bounce url', function it() {
+  it('returns valid bounce url', function it() {
     const ref = c.bounce(_url).split('?', 2);
     const url = ref[0];
     const params = gs.parse(ref[1]);
@@ -200,7 +200,7 @@ describe('#bounce()', function describe() {
 describe('#signon()', function describe() {
   const _url = 'http://myapp.com/login';
 
-  it('should return valid signon url', function it() {
+  it('returns valid signon url', function it() {
     const ref = c.signon(_url).split('?', 2);
     const url = ref[0];
     const params = gs.parse(ref[1]);
@@ -213,19 +213,19 @@ describe('#signon()', function describe() {
 });
 
 describe('#decrypt()', function describe() {
-  it('should handle missing query parameter', function it() {
+  it('handle missing query parameter', function it() {
     assert.throws(function throws() {
       c.decrypt();
     }, /Param query.data is not defined/);
   });
 
-  it('should handle missing data property', function it() {
+  it('handle missing data property', function it() {
     assert.throws(function throws() {
       c.decrypt({});
     }, /Param query.data is not defined/);
   });
 
-  it('should handle missing hmac property', function it() {
+  it('handle missing hmac property', function it() {
     assert.throws(function throws() {
       c.decrypt({
         data: ivct,
@@ -233,7 +233,7 @@ describe('#decrypt()', function describe() {
     }, /Param query.hmac is not defiend/);
   });
 
-  it('should decrypt valid ciphertext and hmac', function it() {
+  it('decrypt valid ciphertext and hmac', function it() {
     const ref = c.decrypt({
       data: encodeURIComponent(ivct),
       hmac: encodeURIComponent(hs),
@@ -250,14 +250,14 @@ describe('#middleware()', function describe() {
   const request = require('supertest');
   const app = request(require('./examples/server'));
 
-  it('should redirect user to DNT Connect', function it(done) {
+  it('redirects user to DNT Connect', function it(done) {
     app.get('/connect')
       .expect(302)
       .expect('location', /https:\/\/www.dnt.no\/connect\/signon/)
       .end(done);
   });
 
-  it('should authenticate user from DNT Connect', function it(done) {
+  it('authenticates user from DNT Connect', function it(done) {
     const ref = c.encryptJSON(JSON.parse(pt), iv);
     const ciphertext = ref[0];
     const hmac = ref[1];
