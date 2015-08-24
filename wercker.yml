@@ -1,4 +1,4 @@
-box: node:0.10
+box: iojs
 
 build:
   steps:
@@ -11,7 +11,7 @@ build:
     - npm-install
 
     - script:
-        name: coffeelint
+        name: eslint
         code: npm run hint
 
     - npm-test
