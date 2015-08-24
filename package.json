@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "hint": "eslint index.js test.js examples",
-    "test": "mocha -b -c --check-leaks -R spec test.js",
+    "test": "mocha -b -c --check-leaks -R tap test.js",
     "watch": "mocha -w -b -c --check-leaks -R progress test.js"
   },
   "engines": {
