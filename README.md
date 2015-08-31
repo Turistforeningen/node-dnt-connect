@@ -36,6 +36,10 @@ var Connect = require('dnt-connect');
 var client = new Connect('myClientName', 'myBase64EncodedSecretKey');
 ```
 
+**Imortant!** The key should be a `base64` representation of your secret key in
+order for the `dnt-connect` package to decrypt the response from DNT Connect
+properly.
+
 ### Bounce
 
 Bounce is used to check if a user is currently authenticated with DNT Connect.
