@@ -33,7 +33,7 @@ var Connect = require('dnt-connect');
 ### New Client
 
 ```javascript
-var client = new Connect('myClientName', 'mySecretKey');
+var client = new Connect('myClientName', 'myBase64EncodedSecretKey');
 ```
 
 ### Bounce
