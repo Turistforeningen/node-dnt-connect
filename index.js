@@ -255,6 +255,16 @@ C.prototype.decrypt = function decrypt(query) {
   return this.decryptJSON(query.data, query.hmac);
 };
 
+/*
+ *
+ * Express.js compatible middleare
+ *
+ * @param <string-utf8> type - "signon" or "bounce"
+ *
+ * @return <function> Express.js compatible middleare function
+ *
+ */
+
 C.prototype.middleware = function middleare(type) {
   const that = this;
 
