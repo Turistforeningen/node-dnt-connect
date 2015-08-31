@@ -60,6 +60,23 @@ when the users is sucessfully authenticated.
 var url = client.signon('http://mysite.com/auth')
 ```
 
+### Middleare
+
+For your convenience we have provided a fully compatible Express.js middeware
+tha can `bounce` or do a full `signon` of your users. A full example can be
+found in
+[here](https://github.com/Turistforeningen/node-dnt-connect/blob/master/examples/server.js).
+
+```javascript
+app.get('/connect', connect.middleware('signon'), function getAuth(req, res) {
+  if (req.dntConnect.err) {
+    res.status(500).json({error: err.message});
+  } else {
+    res.status(200).json({data: req.dntConnect.data});
+  }
+});
+```
+
 ### Decrypt Response
 
 All data sent and recieved to and from DNT Connect is encrypted by 256 bit AES
